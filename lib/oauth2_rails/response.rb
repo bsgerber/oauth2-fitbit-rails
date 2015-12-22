@@ -42,6 +42,10 @@ module Oauth2Rails
     def expires_every
       json_body['expires_in']
     end
+    
+    def user_id
+      json_body['user_id']
+    end
 
   end
 end
