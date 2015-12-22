@@ -61,5 +61,10 @@ module Oauth2Rails
     def recent_activites
       api_call("/1/user/-/activities/recent.json")
     end
+    
+    def activities_on_date(date)
+      get("/user/-/activities/date/#{format_date(date)}.json")
+    end    
+    
   end
 end
