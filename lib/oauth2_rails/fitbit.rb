@@ -2,6 +2,9 @@ require 'oauth2_rails/base'
 require 'oauth2_rails/client'
 require 'oauth2_rails/user'
 require 'oauth2_rails/fitbit/activities'
+require 'oauth2_rails/fitbit/goals'
+require 'oauth2_rails/fitbit/heartrate'
+require 'oauth2_rails/fitbit/sleep'
 
 module Oauth2Rails
   class Fitbit < Client
