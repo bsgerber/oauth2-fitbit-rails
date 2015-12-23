@@ -18,12 +18,13 @@ module Oauth2Rails
       end
     end
 
-    def refresh
-      response = call(:post, "#{@token_path}?grant_type=refresh_token&refresh_token=#{@user.refresh_token}")
+    def refresh(refresh_token=@user.refresh_token)
+      response = call(:post, "#{@token_path}?grant_type=refresh_token&refresh_token=#{refresh_token}")
       @user.update!(
         access_token: response.access_token, refresh_token: response.refresh_token,
         expiry: Time.now + response.expires_every
       )
+      @user
     end
 
   end
