@@ -13,7 +13,7 @@ module Activities
   end
 
   def activity_on_date_range(activity, start, finish)
-    api_call("/1/user/-/activities/#{activity}/date/start/finish.json")
+    api_call("/1/user/-/activities/#{activity}/date/#{start}/#{finish}.json")
   end
 
   def frequent_activities
