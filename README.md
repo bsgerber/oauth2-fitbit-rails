@@ -18,7 +18,7 @@ Or install it yourself as:
 
     $ gem install oauth2_rails
 
-## Usage - Connecting your appto Fitbit
+## Usage - Connecting your app to Fitbit
 
 Create a config/initializers/fitbit.rb file, which should contain your Fitbit application oAuth2 Client ID, consumer secret key, callback url, etc:
 
@@ -31,6 +31,15 @@ if Rails.env.development?
   Oauth2Rails::Base::OAUTH2_RAILS_CALLBACK = "http://www.lacolhost.com:3000/auth/fitbit_oauth2/callback"
 elsif Rails.env.staging?
 ...
+```
+
+Your user model should have fields to hold the fitbit user ID, access and refresh tokens.  These need to be named (or alised) to access_token, refresh_token and expiry.  
+
+```
+  alias_attribute :access_token, :fitbit_oauth2_access_token
+  alias_attribute :refresh_token, :fitbit_oauth2_refresh_token
+  alias_attribute :expiry, :fitbit_oauth2_expiry
+
 ```
 
 On a 'Connect to Fitbit' event, call Oauth2Rails::Auth.new with the scopes you want:
@@ -50,8 +59,23 @@ current_user.update_attributes(
   :fitbit_oauth2_expiry=>DateTime.now + (user_token.expires_every.to_i - 20).seconds)
 ```
 
-You are now ready to fetch data from Fitbit (see below)
+You are now ready to fetch data from Fitbit (see below).
 
+### Refreshing the token
+
+When the token expiry passes (every hour) you need to refresh it.  If you dont change the scopes, this can be transparent to the end user.  
+
+```
+if current_user.fitbit_oauth2_expiry < Time.now
+  client = Oauth2Rails::Fitbit.new(current_user,{})
+  refresh_response = client.refresh(current_user.refresh_token)
+end
+
+```
+
+## Fetchable Data
+
+@wip
 
 ## Contributing
 One project I would be very interested in is extracting this to a more general framework, that works with most clients on rails. For example, I'm sure the Fitbit flow is a little different, so it would not work always with other providers.
