@@ -73,9 +73,15 @@ end
 
 ```
 
-## Fetchable Data
+## Fetchables and Settables
+
+### Getting data:
 
 @wip - See fitbit.rb, and fitbit/*.rb files for details
+
+### Setting data:
+
+@wip - See fitbit/subscriptions.rb
 
 ## Work to do
 
