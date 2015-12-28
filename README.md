@@ -12,7 +12,7 @@ gem 'oauth2_rails'
 
 And then execute:
 
-    $ bundle
+    $ bundle install
 
 Or install it yourself as:
 
@@ -63,7 +63,7 @@ You are now ready to fetch data from Fitbit (see below).
 
 ### Refreshing the token
 
-When the token expiry passes (every hour) you need to refresh it.  If you dont change the scopes, this can be transparent to the end user.  
+When the token expiry passes (every hour) you need to refresh it before attempting another API call.  If you dont change the scopes, this can be transparent to the end user.  
 
 ```
 if current_user.fitbit_oauth2_expiry < Time.now
@@ -74,6 +74,24 @@ end
 ```
 
 ## Fetchables and Settables
+
+To call the Fitbit API, you first need to get the Fitbit client
+
+```
+client = Oauth2Rails::Fitbit.new(current_user,{})
+```
+
+Once you have the client, you can call methods on it
+
+```
+response = client.activities_on_date("2015-12-21")
+```
+
+response.body will contain the data from the server:
+
+```
+{"activities":[],"goals":{"activeMinutes":30,"caloriesOut":2596,"distance":8.05,"floors":10,"steps":10000},"summary":{"activeScore":-1,"activityCalories":34,"caloriesBMR":1598,"caloriesOut":1626,"distances":[{"activity":"total","distance":0.15},{"activity":"tracker","distance":0.15},{"activity":"loggedActivities","distance":0},{"activity":"veryActive","distance":0},{"activity":"moderatelyActive","distance":0},{"activity":"lightlyActive","distance":0.15},{"activity":"sedentaryActive","distance":0}],"elevation":0,"fairlyActiveMinutes":0,"floors":0,"lightlyActiveMinutes":6,"marginalCalories":22,"sedentaryMinutes":1434,"steps":208,"veryActiveMinutes":0}}
+```
 
 ### Getting data:
 
