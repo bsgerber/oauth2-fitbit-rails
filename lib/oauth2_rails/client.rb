@@ -18,6 +18,24 @@ module Oauth2Rails
       end
     end
 
+    def api_post(destination)
+      begin
+        call(:post, destination, user: @user.access_token)
+      rescue Oauth2Rails::Errors::Unauthorized
+        refresh
+        call(:post, destination, user: @user.access_token)
+      end
+    end
+
+    def api_delete(destination)
+      begin
+        call(:delete, destination, user: @user.access_token)
+      rescue Oauth2Rails::Errors::Unauthorized
+        refresh
+        call(:delete, destination, user: @user.access_token)
+      end
+    end
+
     def refresh(refresh_token=@user.refresh_token)
       response = call(:post, "#{@token_path}?grant_type=refresh_token&refresh_token=#{refresh_token}")
       @user.update!(
