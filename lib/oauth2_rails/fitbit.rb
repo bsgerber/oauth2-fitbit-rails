@@ -6,6 +6,7 @@ require 'oauth2_rails/fitbit/goals'
 require 'oauth2_rails/fitbit/heartrate'
 require 'oauth2_rails/fitbit/sleep'
 require 'oauth2_rails/fitbit/subscriptions'
+require 'oauth2_rails/fitbit/devices'
 
 module Oauth2Rails
   class Fitbit < Client
@@ -15,6 +16,7 @@ module Oauth2Rails
     include HeartRate
     include Sleep
     include Subscriptions
+    include Devices
 
     ## => PROFILE
     # https://api.fitbit.com/1/user/-/profile.json
